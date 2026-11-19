@@ -56,6 +56,9 @@ public class LocalProcessor {
 
     @ReadFullProcessorNameAnnotation
     public void readFullProcessorName(File file) throws IllegalStateException, FileNotFoundException {
+        if (file == null) {
+            throw new IllegalStateException("File cannot be null");
+        }
         informationScanner = new Scanner(file);
         while (informationScanner.hasNext()) {
             processorVersion.append(informationScanner.nextLine());
