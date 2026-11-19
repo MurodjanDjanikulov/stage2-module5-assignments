@@ -17,12 +17,12 @@ import lombok.Setter;
 public class LocalProcessor {
     private StringBuilder processorName = new StringBuilder();
     private Long period = 10000000000000L;
-    private String processorVersion;
+    private StringBuilder processorVersion = new StringBuilder();
     private Integer valueOfCheap;
     private Scanner informationScanner;
     private List<String> stringArrayList = new LinkedList<>();
 
-    public LocalProcessor(StringBuilder processorName, Long period, String processorVersion, Integer valueOfCheap,
+    public LocalProcessor(StringBuilder processorName, Long period, StringBuilder processorVersion, Integer valueOfCheap,
                           Scanner informationScanner, List<String> stringArrayList) {
         this.processorName = processorName;
         this.period = period;
@@ -40,12 +40,14 @@ public class LocalProcessor {
         stringArrayList = new LinkedList<>(stringList);
 
         for (String value : stringArrayList) {
-            System.out.println(value.hashCode());
+            if(value!=null) {
+                System.out.println(value.hashCode());
+            }
         }
     }
 
     @FullNameProcessorGeneratorAnnotation
-    public String fullNameProcessorGenerator(LinkedList<String> stringList) {
+    public String fullNameProcessorGenerator(List<String> stringList) {
         for (String name:stringArrayList) {
             processorName.append(name).append(" ");
         }
@@ -54,10 +56,12 @@ public class LocalProcessor {
 
     @ReadFullProcessorNameAnnotation
     public void readFullProcessorName(File file) throws FileNotFoundException {
-            informationScanner = new Scanner(file);
-            while (informationScanner.hasNext()) {
-                processorVersion= processorVersion.concat(informationScanner.nextLine());
-            }
-
+        if (informationScanner == null) {
+            throw new IllegalStateException("Scanner is not initialized");
+        }
+        informationScanner = new Scanner(file);
+        while (informationScanner.hasNext()) {
+            processorVersion.append(informationScanner.nextLine());
+        }
     }
 }
