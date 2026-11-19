@@ -48,7 +48,7 @@ public class LocalProcessor {
 
     @FullNameProcessorGeneratorAnnotation
     public String fullNameProcessorGenerator(List<String> stringList) {
-        for (String name:stringArrayList) {
+        for (String name:stringList) {
             processorName.append(name).append(" ");
         }
         return processorName.toString().trim();
@@ -56,9 +56,6 @@ public class LocalProcessor {
 
     @ReadFullProcessorNameAnnotation
     public void readFullProcessorName(File file) throws FileNotFoundException {
-        if (informationScanner == null) {
-            throw new IllegalStateException("Scanner is not initialized");
-        }
         informationScanner = new Scanner(file);
         while (informationScanner.hasNext()) {
             processorVersion.append(informationScanner.nextLine());
